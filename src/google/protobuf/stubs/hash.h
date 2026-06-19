@@ -106,7 +106,8 @@
 #elif defined(_MSC_VER)
 # if _MSC_VER >= 1600  // Since Visual Studio 2010
 #  define GOOGLE_PROTOBUF_HAS_CXX11_HASH
-#  define GOOGLE_PROTOBUF_HASH_COMPARE std::hash_compare
+//#  define GOOGLE_PROTOBUF_HASH_COMPARE std::hash_compare
+#  define GOOGLE_PROTOBUF_USE_STD_HASH
 # elif _MSC_VER >= 1500  // Since Visual Studio 2008
 #  undef GOOGLE_PROTOBUF_HAVE_HASH_MAP
 #  undef GOOGLE_PROTOBUF_HAVE_HASH_SET
@@ -224,7 +225,7 @@ class hash_set : public std::set<Key, HashFcn> {
   hash_set(int = 0) {}
 };
 
-#elif defined(_MSC_VER) && !defined(_STLPORT_VERSION)
+#elif defined(_MSC_VER) && !defined(_STLPORT_VERSION) && !defined(GOOGLE_PROTOBUF_USE_STD_HASH)
 
 template <typename Key>
 struct hash : public GOOGLE_PROTOBUF_HASH_COMPARE<Key> {
